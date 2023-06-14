@@ -15,7 +15,7 @@ class Library(Books):
     def display_availableBooks(self):
         print("Book Title", "\t\t\t", "Author")
         for book in self.books:
-            print(book.title, "\t", book.author)
+            print(book.title, "\t\t", book.author)
         print("---------------------------------------------")
 
 
