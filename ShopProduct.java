@@ -27,24 +27,43 @@ public class ShopProduct {
         driver.manage().window().maximize();
     }
 
-    @When("Identify the temperature")
+    @When("Identify the temperature and read info")
     public void getTemperature() {
         WebElement temperatureElement = driver.findElement(By.id("temperature"));
         String temperature = temperatureElement.getText();
         System.out.println("Temperature: " + temperature);
-    }
-
-    @And("Choose to buy Moisturizer or Sun screen")
-    public void chooseProduct() {
         WebElement infoButton = driver.findElement(By.xpath("//span[@class='octicon octicon-info']"));
         infoButton.click();
     }
 
+   // @And("Choose to buy either Moisturizer or Sun screen")
+ //   public void chooseProduct() {
+   //     WebElement infoButton = driver.findElement(By.xpath("//span[@class='octicon octicon-info']"));
+     //   infoButton.click();
+  //  }
+
     @Then("Choose the product")
     public void selectProduct() {
-        WebElement product = driver.findElement(By.xpath("(//button[@class='btn btn-primary'])[1]"));
-        product.click();
+        WebElement temperatureElement = driver.findElement(By.id("temperature"));
+        String temperature = temperatureElement.getText();
+        System.out.println("Temperature: " + temperature);
+        // Extract numbers from the string using regular expression
+        String numberString = temperature.replaceAll("[^\\d.]", "");
 
+        // Convert the extracted number to a double
+        double number = Double.parseDouble(numberString);
+
+        System.out.println("Extracted number: " + number);
+        if(number <= 19.0){
+            System.out.println("Moisturizer selected");
+            WebElement moisturizer = driver.findElement(By.xpath("(//button[@class='btn btn-primary'])[1]"));
+            moisturizer.click();
+        }
+        else{
+            System.out.println("Sunscreen selected");
+            WebElement sunscreen = driver.findElement(By.xpath("(//button[@class='btn btn-primary'])[2]"));
+            sunscreen.click();
+        }
     }
 
     @And("Read the instruction of product")
@@ -119,6 +138,10 @@ public class ShopProduct {
 
         Assert.assertEquals(ActualResult, expectedResult, "The actual result doesn't match the expected result.");
     }
+        @And("Close the browser")
+        public void closeBrowser(){
+            driver.quit();
+        }
 
 
 }
